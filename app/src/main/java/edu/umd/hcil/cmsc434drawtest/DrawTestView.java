@@ -46,7 +46,6 @@ public class DrawTestView extends View {
     private long _lastTimeDrawingInMs = 0;
     private long _maxOnDrawInMs = 0;
     private int _numDrawingCallsToMeasure = 100;
-    private int _lastHistoricalPointCount = 0;
     private long _historicalPoints = 0;
 
     public DrawTestView(Context context) {
@@ -115,6 +114,17 @@ public class DrawTestView extends View {
             paint.setStyle(Paint.Style.FILL);
             _offScreenCanvas.drawRect(0, 0, this.getWidth(), this.getHeight(), paint);
         }
+
+        // you can ignore this stuff... it's for performance tracking
+        _touchPoints = 0;
+        _drawingCalls = 0;
+        _elapsedTimeDrawingInMs = 0;
+        _touchEventCalls = 0;
+        _elapsedTimeProcessingTouchEventsInMs = 0;
+        _lastTimeDrawingInMs = 0;
+        _maxOnDrawInMs = 0;
+        _numDrawingCallsToMeasure = 100;
+        _historicalPoints = 0;
 
         invalidate();
     }
@@ -230,7 +240,6 @@ public class DrawTestView extends View {
                 }
 
                 _touchPoints += historySize + 1;
-                _lastHistoricalPointCount = historySize;
                 _historicalPoints += historySize; // for measuring performance
                 invalidate();
 
